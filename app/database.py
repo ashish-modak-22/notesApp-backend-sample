@@ -29,3 +29,21 @@ SessionLocal = sessionmaker(
     autoflush=False,
     bind=engine
 )
+
+
+
+# The base case for all SQLAlchemy models
+Base = declarative_base()
+
+
+
+# Dependency for FastAPI
+def get_db():
+
+    db = SessionLocal()
+
+    try:
+        yield db
+
+    finally:
+        db.close()
