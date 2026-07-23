@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
+from app.schemas.user import UserRegister, UserResponse
 
 
 app  = FastAPI()
@@ -15,3 +16,11 @@ def home():
     return {
         "message": "Welcome to NotesApp Backend"
     }
+
+
+@app.post("/register", response_model=UserResponse)
+async def register(
+    user: UserRegister,
+    db: Session = Depends(get_db)
+):
+    pass
