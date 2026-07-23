@@ -3,6 +3,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.user import UserRegister, UserResponse
+from app.models.user import User
 
 
 app  = FastAPI()
@@ -23,4 +24,6 @@ async def register(
     user: UserRegister,
     db: Session = Depends(get_db)
 ):
-    pass
+    existing_user = db.query(User).filter(
+        User.email == user.email
+    ).first()
