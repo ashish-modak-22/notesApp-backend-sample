@@ -27,3 +27,6 @@ async def register(
     existing_user = db.query(User).filter(
         User.email == user.email
     ).first()
+
+    if existing_user:
+        ...
