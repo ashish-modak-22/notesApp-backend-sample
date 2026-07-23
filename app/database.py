@@ -7,7 +7,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 
 # Load the environment variables
-load_dotenv()
+load_dotenv(override=True)
 
 
 
