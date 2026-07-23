@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.user import UserRegister, UserResponse
 from app.models.user import User
+from fastapi import HTTPException
+
 
 
 app  = FastAPI()
@@ -29,4 +31,7 @@ async def register(
     ).first()
 
     if existing_user:
-        ...
+        raise HTTPException(
+            status_code=400,
+            detail="Email already registered"
+        )
