@@ -1,3 +1,6 @@
+# To run the main file: "uvicorn app.main:app --reload"
+
+
 from fastapi import FastAPI
 from fastapi import Depends
 from sqlalchemy.orm import Session
