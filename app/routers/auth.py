@@ -66,3 +66,10 @@ async def login(
             status_code=404,
             detail="Invalid email or password"
         )
+
+    return {
+        "message": "Login Successful",
+        "user_id": existing_user.id,
+        "name": existing_user.name,
+        "email": existing_user.email
+    }
