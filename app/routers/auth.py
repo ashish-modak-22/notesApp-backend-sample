@@ -60,3 +60,9 @@ async def login(
             status_code=401,
             detail="Invalid email or password"
         )
+
+    if not verify_password(user.password, existing_user.password_hash):
+        raise HTTPException(
+            status_code=404,
+            detail="Invalid email or password"
+        )
