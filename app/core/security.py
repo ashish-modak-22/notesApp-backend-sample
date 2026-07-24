@@ -85,8 +85,18 @@ async def get_curent_user(token: str = Depends(oauth2_scheme), db: Session = Dep
                 detail= "Invalid authentication credentials"
             )
 
+        user = db.query(User).filter(User.email == email).first()
+
+        if user is None:
+            raise HTTPException(
+                status_code= status.HTTP_401_UNAUTHORIZED,
+                detail= "User not Found"
+            )
+
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials"
         )
+
+    return user
