@@ -77,6 +77,14 @@ async def get_curent_user(token: str = Depends(oauth2_scheme), db: Session = Dep
             algorithms=[ALGORITHM]
         )
 
+        email = payload.get("sub")
+
+        if email is None:
+            raise HTTPException(
+                status_code= status.HTTP_401_UNAUTHORIZED,
+                detail= "Invalid authentication credentials"
+            )
+
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
