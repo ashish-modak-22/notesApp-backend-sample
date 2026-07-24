@@ -24,8 +24,30 @@ def hash_password(password: str) -> str:
     return hashed_password.decode("utf-8")
 
 
+
 def verify_password(password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(
         password.encode("utf-8"),
         hashed_password.encode("utf-8")
     )
+
+
+
+# Generate a JWT access token for an authenticated user
+def create_access_token(data: dict):
+
+    to_encode = data.copy()
+
+    expire = datetime.now(timezone.utc) + timedelta(
+        minutes = ACCESS_TOKEN_EXPIRE_MINUTES
+    )
+
+    to_encode.update({"exp": expire})
+
+    encoded_jwt = jwt.encode(
+        to_encode,
+        SECRET_KEY,
+        algorithm=ALGORITHM
+    )
+
+    return encoded_jwt
