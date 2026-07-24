@@ -1,3 +1,5 @@
+# The "OAuth2PasswordBearer" separates token from header
+
 from fastapi import APIRouter
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
@@ -5,6 +7,7 @@ from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserRegister, UserResponse, UserLogin, Token
 from app.core.security import hash_password, verify_password, create_access_token
+from fastapi.security import OAuth2PasswordBearer
 
 
 
