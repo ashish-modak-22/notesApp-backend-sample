@@ -68,7 +68,7 @@ def create_access_token(data: dict):
 
 
 # Get the currently authenticated user from the JWT token
-async def get_curent_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
 
     try:
         payload = jwt.decode(

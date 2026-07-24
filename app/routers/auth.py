@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserRegister, UserResponse, UserLogin, Token
-from app.core.security import hash_password, verify_password, create_access_token
+from app.core.security import hash_password, verify_password, create_access_token, get_current_user
 from fastapi.security import OAuth2PasswordBearer
 
 
@@ -81,4 +81,15 @@ async def login(
     return {
         "access_token": access_token,
         "token_type": "bearer"
+    }
+
+
+
+@router.get("/me")
+async def get_profile(current_user: User = Depends(get_current_user)):
+
+    return {
+        "id": current_user.id,
+        "name": current_user.name,
+        "email": current_user.email
     }
