@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserRegister, UserResponse, UserLogin
-from app.core.security import hash_password, verify_password
+from app.core.security import hash_password, verify_password, create_access_token
 
 
 
@@ -67,6 +67,13 @@ async def login(
             detail="Invalid email or password"
         )
 
+    # Create a JWT access token for the authenticated user
+    access_token = create_access_token(
+        data={
+            "sub": existing_user.email
+        }
+    )
+    
     return {
         "message": "Login Successful",
         "user_id": existing_user.id,
