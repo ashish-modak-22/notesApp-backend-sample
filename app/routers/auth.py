@@ -3,8 +3,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.user import User
-from app.schemas.user import UserRegister, UserResponse
-from app.core.security import hash_password
+from app.schemas.user import UserRegister, UserResponse, UserLogin
+from app.core.security import hash_password, verify_password
 
 
 
@@ -42,3 +42,21 @@ async def register(
     db.refresh(new_user)
 
     return new_user
+
+
+
+@router.post("/login")
+async def login(
+    user: UserLogin,
+    db: Session = Depends(get_db)
+):
+    
+    existing_user = db.query(User).filter(
+    User.email == user.email
+    ).first()
+
+    if not existing_user:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password"
+        )
