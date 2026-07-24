@@ -73,10 +73,9 @@ async def login(
             "sub": existing_user.email
         }
     )
-    
+
+    # Return the generated JWT access token to the client
     return {
-        "message": "Login Successful",
-        "user_id": existing_user.id,
-        "name": existing_user.name,
-        "email": existing_user.email
+        "access_token": access_token,
+        "token_type": "bearer"
     }
