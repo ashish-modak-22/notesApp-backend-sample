@@ -5,6 +5,10 @@ from dotenv import load_dotenv
 import os
 from jose import JWTError
 from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException, status
+from sqlalchemy.orm import Session
+from app.database import get_db
+from app.models.user import User
 
 
 
@@ -60,3 +64,21 @@ def create_access_token(data: dict):
     )
 
     return encoded_jwt
+
+
+
+# Get the currently authenticated user from the JWT token
+async def get_curent_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+    except JWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid authentication credentials"
+        )
